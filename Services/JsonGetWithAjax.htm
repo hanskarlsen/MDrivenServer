@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JsonGetWithAjax</title>
+
+    <script type="text/javascript">
+    // <![CDATA[
+
+    // This function creates an asynchronous call to the service
+    function makeCall(operation){
+        
+        // Create HTTP request
+        var xmlHttp;
+        try {
+            xmlHttp = new XMLHttpRequest();
+        } catch (e) {
+            try {
+                xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                try {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e) {
+                    alert("This sample only works in browsers with AJAX support"); 
+                    return false;
+                }
+            }
+        }
+
+        // Create result handler 
+        xmlHttp.onreadystatechange=function(){
+            if (xmlHttp.readyState == 4) {
+                try {
+                    document.getElementById("result").value = '{"root":' + eval('(' + xmlHttp.responseText + ')').QueryResult + '}';
+                } catch (e) {
+                    document.getElementById("result").value = xmlHttp.responseText;
+                }
+
+            }
+        }
+     
+        // Build the operation URL
+        var url = "service.svc/";
+        url = url + operation;
+
+        // Build the body of the JSON message
+        var body = '{"databaseIdentity":';
+        body = body + '"'+document.getElementById("databaseIdentity").value + '"' + ',"ocl":';
+        body = body + '"' + document.getElementById("ocl").value + '"' + ',"viewmodel":';
+        body = body + '"' + document.getElementById("viewmodel").value + '"' + ',"maxans":';
+        body = body + document.getElementById("maxans").value + ',"offset":';
+        body = body + document.getElementById("offset").value + '}';
+        
+        // Send the HTTP request
+        xmlHttp.open("POST", url, true);
+        xmlHttp.setRequestHeader("Content-type", "application/json");
+        xmlHttp.send(body);
+
+    }
+
+    // ]]>
+    </script>
+</head>
+<body>
+    <h1>GET</h1>
+    
+    <p>
+        databaseIdentity:
+        <select id="databaseIdentity" >
+            <option value="A0">A0</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+        </select></p>
+    <p>
+        ocl:
+        <input type="text" id="ocl" value="TheRoot.allinstances"/></p>
+    <p>
+        viewmodel:
+        <input type="text" id="viewmodel" value="ViewModel1" /></p>
+    <p>
+        maxans:
+        <input type="text" id="maxans" value="100" /></p>
+    <p>
+        offset:
+        <input type="text" id="offset" value="0"/></p>
+    <input id="btnDoQuery" type="button" onclick="return makeCall('Query');" value="DoQuery" />
+    <p>
+        Result:</p>
+    <textarea id="result" cols="50" rows="8"></textarea>
+</body>
+</html>

@@ -1,0 +1,2 @@
+<%@ServiceHost language="c#" Debug="true" Service="AppCompleteGeneric.JSONService" Factory="System.ServiceModel.Activation.WebServiceHostFactory" %>
+

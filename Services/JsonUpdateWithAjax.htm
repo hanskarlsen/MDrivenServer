@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JsonUpdateAjax</title>
+
+    <script type="text/javascript">
+    // <![CDATA[
+
+        // This function creates an asynchronous call to the service
+        function makeCall(operation) {
+
+            // Create HTTP request
+            var xmlHttp;
+            try {
+                xmlHttp = new XMLHttpRequest();
+            } catch (e) {
+                try {
+                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    try {
+                        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (e) {
+                        alert("This sample only works in browsers with AJAX support");
+                        return false;
+                    }
+                }
+            }
+
+            // Create result handler 
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) 
+                {
+                    document.getElementById("result").value = xmlHttp.responseText;
+                }
+            }
+
+            // Build the operation URL
+            var url = "service.svc/";
+            url = url + operation;
+
+           
+            // Build the body of the JSON message
+            var body = '{"databaseIdentity":';
+            body = body + '"' + document.getElementById("databaseIdentity").value + '"' + ',"jsonArrayOfUpdateObjects":';
+            body = body + '"' + document.getElementById("jsonArrayOfUpdateObjects").value.replace(/\"/g, '\\"').replace(/\r\n/g, '') +'"' + ',"jsonArrayOfDeleteObjects":';
+            body = body + '"' + document.getElementById("jsonArrayOfDeleteObjects").value.replace(/\"/g, '\\"').replace(/\r\n/g, '') + '"' + '}';
+
+            //body = body + '"' + document.getElementById("jsonArrayOfUpdateObjects").value.replace(/\"/g, '\\"') + '"' + ',"jsonArrayOfDeleteObjects":';
+            //body = body + '"' + document.getElementById("jsonArrayOfDeleteObjects").value.replace(/\"/g, '\\"') + '"' + '}';
+
+            // Send the HTTP request
+            xmlHttp.open("POST", url, true);
+            xmlHttp.setRequestHeader("Content-type", "application/json");
+            xmlHttp.send(body);
+
+        }
+
+    // ]]>
+    </script>
+</head>
+<body>
+    <h1>
+        UPDATE</h1>
+        
+    
+    <p>
+        databaseIdentity:
+        <select id="databaseIdentity" >
+            <option value="A0">A0</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+        </select></p>
+    <p>
+        jsonArrayOfUpdateObjects:
+        <textarea  id="jsonArrayOfUpdateObjects" cols="50" rows="3"></textarea></p>
+    <p>
+        jsonArrayOfDeleteObjects:
+        <textarea id="jsonArrayOfDeleteObjects" cols="50" rows="3"></textarea></p>
+    <p>
+        
+    <input id="btnDoUpdate" type="button" onclick="return makeCall('Update');" value="DoUpdate" />
+    <p>
+        Result:</p>
+    <textarea id="result" cols="50" rows="8"></textarea>
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AppCompleteGeneric.Site" %>
+<%@ Register assembly="Eco.Web" namespace="Eco.Web.UI.WebControls" tagprefix="eco" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+    <title>BorPred</title>
+<link rel="stylesheet" type="text/css" href="styles.css" />    
+<asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+<eco:EcoSpaceManager ID="EcoSpaceManagerMaster" runat="server" >                
+              </eco:EcoSpaceManager>
+              <eco:EcoDataSource ID="EcoDataSourceMaster" runat="server" EcoSpaceManagerID="EcoSpaceManagerMaster"></eco:EcoDataSource>
+
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:ImageMap ID="ImageMap1" runat="server" ImageUrl="images/header.png" BorderColor="Transparent" 
+            Height="55px" Width="661px">
+            <asp:RectangleHotSpot Top="39" Left="536" Bottom="65" Right="656" AlternateText="CapableObjects" NavigateUrl="http://www.capableobjects.com/BoringPredictable" />
+            <asp:RectangleHotSpot  Top="0" Left="0" Bottom="65" Right="656" AlternateText="Back to index" NavigateUrl="index.aspx" />
+        </asp:ImageMap><br />
+        <asp:Label id="optionalServerName" runat="server"></asp:Label>
+        <asp:Label id="infoAboutConnection" runat="server"></asp:Label>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+        <asp:Panel ID="PanelNoAccess" runat="server"><h1>You currently do not have access - this is due to setting AdminRequireIdentification==true and you do not have correct role</h1></asp:Panel>
+    </div>
+        <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+    </form>
+</body>
+</html>

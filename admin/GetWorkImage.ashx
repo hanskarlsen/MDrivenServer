@@ -1,0 +1,1 @@
+﻿<%@ WebHandler Language="C#" CodeBehind="GetWorkImage.ashx.cs" Class="AppCompleteGeneric.admin.GetWorkImage" %>
